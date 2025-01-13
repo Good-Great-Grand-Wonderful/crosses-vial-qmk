@@ -3,6 +3,28 @@
     "productId": "0x5649",
     "vendorId": "0x3034",
     "lighting": "none",
+    "customKeycodes": [
+        {
+            "name": "M-Inc",
+            "title": "Increase Mouse CPI",
+            "shortName": "C_MINC"
+        },
+        {
+            "name": "M-Decrease",
+            "title": "Increase Mouse CPI",
+            "shortName": "C_DEC"
+        },
+        {
+            "name": "M-Togg",
+            "title": "Toggle auto mouse",
+            "shortName": "C_MTOGG"
+        },
+        {
+            "name": "M-Drag",
+            "title": "Drag scroll mode",
+            "shortName": "C_DRAG"
+        }
+    ],
     "matrix": {
         "rows": 10,
         "cols": 6

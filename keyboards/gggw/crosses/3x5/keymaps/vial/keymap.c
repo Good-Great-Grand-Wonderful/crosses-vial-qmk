@@ -9,20 +9,15 @@
  * Keycodes, combos, and layers! oh my!
  */
 
-enum CROSSES_LAYERS {
-    _BASE,
-    _NUM,
-    _NAV,
-    _MEDIA,
-    _FUNC,
-    _MOUS,
-    _CUST
-};
+enum CROSSES_LAYERS { _BASE, _NUM, _NAV, _MEDIA, _FUNC, _MOUS, _CUST };
+
+enum crosses_keycode { C_MINC = QK_KB_0, C_MDEC, C_MTOGG, C_DRAG };
 
 /*
  * Keymaps!
  */
 
+// clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ┌───────────┬───────────┬───────────┬───────────┬────────────┐                      ┌──────┬────────────┬───────────┬───────────┬───────────┐
 //    │     q     │     w     │     f     │     p     │     b      │                      │  j   │     l      │     u     │     y     │     ;     │
@@ -104,19 +99,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                              KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS , KC_TRNS
 ),
 
-//    ┌──────┬─────────┬─────────┬─────────┬────┐             ┌────┬──────┬──────┬──────┬──────┐
-//    │ lsft │  lalt   │   no    │   no    │ no │             │ no │  no  │  no  │  no  │  no  │
-//    ├──────┼─────────┼─────────┼─────────┼────┤             ├────┼──────┼──────┼──────┼──────┤
-//    │ lctl │ MS_BTN3 │ MS_BTN2 │ MS_BTN1 │ no │             │ no │ rsft │ rctl │ ralt │ rgui │
-//    ├──────┼─────────┼─────────┼─────────┼────┤             ├────┼──────┼──────┼──────┼──────┤
-//    │ lgui │   no    │   no    │   no    │ no │             │ no │  no  │  no  │  no  │  no  │
-//    └──────┴─────────┴─────────┼─────────┼────┼────┐   ┌────┼────┼──────┼──────┴──────┴──────┘
-//                               │         │ no │ no │   │ no │ no │  no  │
-//                               └─────────┴────┴────┘   └────┴────┴──────┘
+//    ┌──────┬─────────┬─────────┬─────────┬────┐             ┌────┬────────┬────────┬──────┬─────────┐
+//    │ lsft │  lalt   │   no    │   no    │ no │             │ no │ C_MINC │ C_MDEC │  no  │ C_MTOGG │
+//    ├──────┼─────────┼─────────┼─────────┼────┤             ├────┼────────┼────────┼──────┼─────────┤
+//    │ lctl │ MS_BTN3 │ MS_BTN2 │ MS_BTN1 │ no │             │ no │  rsft  │  rctl  │ ralt │  rgui   │
+//    ├──────┼─────────┼─────────┼─────────┼────┤             ├────┼────────┼────────┼──────┼─────────┤
+//    │ lgui │   no    │   no    │ C_DRAG  │ no │             │ no │   no   │   no   │  no  │   no    │
+//    └──────┴─────────┴─────────┼─────────┼────┼────┐   ┌────┼────┼────────┼────────┴──────┴─────────┘
+//                               │         │ no │ no │   │ no │ no │   no   │
+//                               └─────────┴────┴────┘   └────┴────┴────────┘
 [_MOUS] = LAYOUT_default(
-  KC_LSFT , KC_LALT , KC_NO   , KC_NO   , KC_NO ,                     KC_NO , KC_NO   , KC_NO   , KC_NO   , KC_NO  ,
+  KC_LSFT , KC_LALT , KC_NO   , KC_NO   , KC_NO ,                     KC_NO , C_MINC  , C_MDEC  , KC_NO   , C_MTOGG,
   KC_LCTL , MS_BTN3 , MS_BTN2 , MS_BTN1 , KC_NO ,                     KC_NO , KC_RSFT , KC_RCTL , KC_RALT , KC_RGUI,
-  KC_LGUI , KC_NO   , KC_NO   , KC_NO   , KC_NO ,                     KC_NO , KC_NO   , KC_NO   , KC_NO   , KC_NO  ,
+  KC_LGUI , KC_NO   , KC_NO   , C_DRAG  , KC_NO ,                     KC_NO , KC_NO   , KC_NO   , KC_NO   , KC_NO  ,
                                 KC_TRNS , KC_NO , KC_NO ,     KC_NO , KC_NO , KC_NO
 ),
 
@@ -137,6 +132,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 )
 };
 
+// clang-format on
 
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
     switch (keycode) {
@@ -153,12 +149,40 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
                 return false;
             }
             break;
+        case C_MINC:
+            if (record->event.pressed) {
+                change_pointer_dpi(&global_user_config, true);
+                debug_config_to_console(&global_user_config);
 
+                return false;
+            }
+            break;
+        case C_MDEC:
+            if (record->event.pressed) {
+                change_pointer_dpi(&global_user_config, false);
+                debug_config_to_console(&global_user_config);
+
+                return false;
+            }
+            break;
+        case C_MTOGG:
+            if (record->event.pressed) {
+                bool current_state = get_auto_mouse_enable();
+                set_auto_mouse_enable(!current_state);
+
+                return false;
+            }
+            break;
+        case C_DRAG:
+            if (record->event.pressed) {
+                set_scrolling = record->event.pressed;
+                return true;
+            }
+            break;
     }
 
     return true;
 }
-
 
 #ifdef OLED_ENABLE
 
@@ -179,17 +203,25 @@ static void render_logo(void) {
 bool oled_task_user(void) {
     render_logo();
 
+    // clang-format off
     const char* layer_names[] = {
-        [_BASE]  = ">> BASE   ",
-        [_NUM]   = ">> PROG   ",
-        [_NAV]   = ">> NAVI   ",
-        [_MEDIA] = ">>> MEDIA ",
-        [_FUNC]  = ">>> FUNC  ",
-        [_MOUS]  = ">>> MOUSE ",
-        [_CUST]  = ">>> CUSTOM",
+        [_BASE]  = "BASE  CPI: ",
+        [_NUM]   = "PROG  CPI: ",
+        [_NAV]   = "NAVI  CPI: ",
+        [_MEDIA] = "MEDIA CPI: ",
+        [_FUNC]  = "FUNC  CPI: ",
+        [_MOUS]  = "MOUSE CPI: ",
+        [_CUST]  = "CUST  CPI: ",
     };
+    // clang-format on
 
-    oled_write_P(PSTR(layer_names[get_highest_layer(layer_state)]), false);
+    char     cpi_str[6];
+    uint16_t current_dpi = get_pointer_dpi(&global_user_config);
+
+    snprintf(cpi_str, sizeof(cpi_str), "%u", (unsigned int)current_dpi);
+
+    oled_write(PSTR(layer_names[get_highest_layer(layer_state)]), false);
+    oled_write(cpi_str, false);
 
     return false;
 }
@@ -203,5 +235,5 @@ void keyboard_post_init_user(void) {
 
 void pointing_device_init_user(void) {
     set_auto_mouse_layer(_MOUS);
-    set_auto_mouse_enable(true);
+    set_auto_mouse_enable(false);
 }
