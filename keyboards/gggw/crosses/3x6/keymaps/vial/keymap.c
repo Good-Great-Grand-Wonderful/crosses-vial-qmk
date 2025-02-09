@@ -205,12 +205,6 @@ bool oled_task_user(void) {
 }
 #endif /* ifdef OLED_ENABLE */
 
-void keyboard_post_init_user(void) {
-    global_user_config.raw = eeconfig_read_user();
-    update_pointer_cpi(&global_user_config);
-    write_config_to_eeprom(&global_user_config);
-}
-
 void pointing_device_init_user(void) {
     set_auto_mouse_layer(_MOUS);
     set_auto_mouse_enable(false);

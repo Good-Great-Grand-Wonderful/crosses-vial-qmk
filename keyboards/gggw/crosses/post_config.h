@@ -16,8 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
 
-#define HAL_USE_SPI TRUE
-#define HAL_USE_I2C TRUE
-#define PAL_USE_CALLBACKS TRUE
-
-#include_next "halconf.h"
+/*
+ * Sync
+ */
+#define SPLIT_TRANSACTION_IDS_KB CROSSES_SECONDARY_SYNC_ID

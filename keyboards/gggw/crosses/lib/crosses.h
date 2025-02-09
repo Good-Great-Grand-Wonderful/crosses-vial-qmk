@@ -1,6 +1,26 @@
+/*
+This is the c library for EEPROM and other Crosses features.
+You should not need to modify it as config comes from  config.h
+
+Copyright 2024 Vincent Franco <me@vincentfranco.com>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #pragma once
 
 #include "quantum.h"
+#include "transactions.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,6 +55,8 @@ void change_pointer_dpi(global_user_config_t* config, bool inc);
 void debug_config_to_console(global_user_config_t* config);
 
 void eeconfig_init_user(void);
+
+void keyboard_post_init_user(void);
 
 /*
  * Pointing Device Config
