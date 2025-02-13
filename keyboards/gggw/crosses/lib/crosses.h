@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "quantum.h"
-#include "transactions.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -67,9 +66,9 @@ extern bool set_scrolling;
 extern float scroll_acc_h;
 extern float scroll_acc_v;
 
-#    ifndef POINTING_DEVICE_COMBINED
+#    if defined(POINTING_DEVICE_LEFT) || defined(POINTING_DEVICE_RIGHT)
 report_mouse_t pointing_device_task_user(report_mouse_t mouse_report);
-#    endif // !POINTING_DEVICE_COMBINED
+#    endif // POINTING_DEVICE
            //
 #    ifdef POINTING_DEVICE_COMBINED
 report_mouse_t pointing_device_task_combined_user(report_mouse_t left_report, report_mouse_t right_report);
