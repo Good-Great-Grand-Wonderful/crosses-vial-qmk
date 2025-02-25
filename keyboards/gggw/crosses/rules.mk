@@ -1,5 +1,4 @@
 POINTING_DEVICE_ENABLE = yes
-POINTING_DEVICE_DRIVER = pmw3360
 OLED_ENABLE = yes
 
 SRC += lib/crosses.c
