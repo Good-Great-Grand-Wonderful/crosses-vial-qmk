@@ -13,14 +13,14 @@
  * Uncomment ONLY ONE of the following defines
  */
 // Using a single trackball on the right hand side
-// START RIGHT
+// START_RIGHT
 // #define POINTING_DEVICE_RIGHT
-// END RIGHT
+// END_RIGHT
 
 // Using a sinble trackball on the left hand side
-// START LEFT
+// START_LEFT
 // #define POINTING_DEVICE_LEFT
-// END LEFT
+// END_LEFT
 
 // Rocking dual trackballs!
 // START_DUAL
