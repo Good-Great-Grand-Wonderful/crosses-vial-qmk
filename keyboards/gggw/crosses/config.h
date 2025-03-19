@@ -10,7 +10,7 @@
 #define SPLIT_POINTING_ENABLE
 
 /*
- * Undomment ONLY ONE of the following defines
+ * Uncomment ONLY ONE of the following defines
  */
 // Using a single trackball on the right hand side
 // #define POINTING_DEVICE_RIGHT
