@@ -11,8 +11,8 @@
         },
         {
             "name": "M-Decrease",
-            "title": "Increase Mouse CPI",
-            "shortName": "C_DEC"
+            "title": "Decrease Mouse CPI",
+            "shortName": "C_MDEC"
         },
         {
             "name": "M-Togg",
